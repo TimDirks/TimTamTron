@@ -1,0 +1,13 @@
+{
+  "name": "discordbot",
+  "version": "0.0.2",
+  "description": "My own Discord bot",
+  "main": "app.js",
+  "author": "Tim Dirks",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "discord.js": "^11.3.2"
+  }
+}
