@@ -26,5 +26,5 @@ app.use('/', function (req, res){
     res.send("I'm awake!");
 });
 setInterval(function() {
-    http.get("https://timtamtron.herokuapp.com/");
+    http.get("http://timtamtron.herokuapp.com/");
 }, 600000);
