@@ -12,6 +12,7 @@ mongoose.connect(dbConfig.url);
 const config = require("./auth.json");
 
 require('./models/user.js');
+require('./models/guild.js');
 
 var client = require('./bot.js');
 
@@ -27,4 +28,4 @@ app.use('/', function (req, res){
 });
 setInterval(function() {
     http.get("http://timtamtron.herokuapp.com/");
-}, 600000);
+}, 900000);
