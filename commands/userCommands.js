@@ -72,7 +72,8 @@ function copyMessage(message, args){
     if(copyMessage !== "") message.channel.send(copyMessage);
 }
 
-module.exports = function(prefix) {
+module.exports = function(bot, prefix) {
+    this.client = bot;
     this.prefix = prefix;
     return switchCmd;
 };

@@ -7,7 +7,7 @@ User = mongoose.model('User');
 Guild = mongoose.model('Guild');
 
 var adminCmd = require('./commands/adminCommands.js')(config.prefix);
-var userCmd = require('./commands/userCommands.js')(config.prefix);
+var userCmd = require('./commands/userCommands.js')(client, config.prefix);
 
 client.on("ready", function() {
     console.log("Bot has started, with " + client.users.size + " users, in " + client.channels.size + " channels of " + client.guilds.size + " guilds.");
