@@ -22,8 +22,6 @@ var switchCmd = function getCommand(message){
     }
 };
 
-
-
 function getHelp(message){
     var help = "```Command list overview```\n";
     help += "\n**t.help -** you get this list. Great job, you played yourself!";
@@ -55,7 +53,7 @@ function complimentUser(message){
         return message.channel.send("I appreciate the kindness but wouldn't it be a bit weird for me to compliment myself?");
 
     Guild.findOne({guildId: message.guild.id}, function(err, guild){
-        if(err) message.channel.send("Something went wrong with getting your guild from the database...");
+        if(err) return message.channel.send("Something went wrong with getting your guild from the database...");
         if(guild.compliments.length > 0){
             var randomComp = Math.floor(Math.random() * guild.compliments.length);
             var compliment = guild.compliments[randomComp];
@@ -74,8 +72,7 @@ function copyMessage(message, args){
     if(copyMessage !== "") message.channel.send(copyMessage);
 }
 
-module.exports = function(bot, prefix) {
-    this.client = bot;
+module.exports = function(prefix) {
     this.prefix = prefix;
     return switchCmd;
 };

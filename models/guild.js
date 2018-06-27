@@ -34,7 +34,13 @@ guildSchema.statics.findOneOrCreate = function findOneOrCreate(condition, callba
     const self = this
     self.findOne(condition, (err, result) => {
         return result ? callback(err, result) : self.create(condition, (err, result) => { return callback(err, result) })
-})
+    })
+};
+
+guildSchema.statics.resetCompliments = function resetCompliments(condition, callback) {
+    this.findOneAndUpdate(condition, {compliments: defCompl}, function(err, result){
+        return callback(err, result);
+    })
 };
 
 mongoose.model('Guild', guildSchema);
