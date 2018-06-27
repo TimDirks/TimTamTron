@@ -12,7 +12,15 @@ var defCompl = [
     "[user] is my reason to smile!",
     "Any team would be lucky to have [user] in it!",
     "This server is so much better with [user] in it!",
-    "Everytime [user] talks to me, I start to blush..."
+    "Everytime [user] talks to me, I start to blush...",
+    "[user] has really nice long arms!",
+    "People blush when they see [user] walking down the street.",
+    "I as a robot may be technically perfect, but [user] sure is something else!",
+    "Being around [user] is like a happy little vacation.",
+    "It turns out [user] is one of the smartest people around!",
+    "Who raised [user]? They deserve a medal for a job well done.",
+    "How does [user] keep being so funny and making everyone laugh?",
+    "Colors seem brighter when [user] is around!"
 ];
 
 var guildSchema = new mongoose.Schema({
