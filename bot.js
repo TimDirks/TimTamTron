@@ -43,24 +43,13 @@ client.on("message", async message =>
 
     // Switch for the command. Expand at own desire.
     switch (cmd) {
-        case "help": case "ping": case "compliment": case "copy":
+        case "help": case "ping": case "compliment": case "copy": case "stats": case "joke":
             userCmd(message);
             break;
         case "admin":
             adminCmd(message);
             break;
-        case "save":
-            addUser(message);
-            break;
-
     }
 })
-
-function addUser(message){
-    User.findOneOrCreate({ userId: message.author.id }, function (err, user) {
-        if (err) return console.log(err);
-        message.channel.send("I saved you in the database!");
-    });
-}
 
 module.exports = client;
