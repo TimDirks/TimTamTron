@@ -4,6 +4,16 @@ var userSchema = new mongoose.Schema({
     userId: {
         type: String,
         required: true
+    },
+    complimented: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    joked: {
+        type: Number,
+        default: 0,
+        required: true
     }
 });
 

@@ -31,6 +31,10 @@ function showComp(message){
         if(err) return message.channel.send("Could not get the guild from the database!");
         var compliments = "```List of all your compliments```\n";
         guild.compliments.forEach(function(element, index){
+            if(index % 10 === 0){
+                message.channel.send(compliments);
+                compliments = "";
+            }
             compliments += "\n**"+(index+1)+".** " + element;
         });
         message.channel.send(compliments);
