@@ -10,7 +10,27 @@ var userSchema = new mongoose.Schema({
         default: 0,
         required: true
     },
+    complimenting: {
+        type: Number,
+        default: 0,
+        required: true
+    },
     joked: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    rpsWin: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    rpsTie: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    rpsLose: {
         type: Number,
         default: 0,
         required: true
