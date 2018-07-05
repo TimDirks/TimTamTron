@@ -31,7 +31,7 @@ function showJoke(message){
         if(err) return message.channel.send("Could not get the guild from the database!");
         var jokes = "```List of all your jokes```\n";
         guild.jokes.forEach(function(element, index){
-            if(index % 10 === 0){
+            if(index % 15 === 0){
                 message.channel.send(jokes);
                 jokes = "";
             }
@@ -42,6 +42,7 @@ function showJoke(message){
 }
 
 function removeJoke(message, args){
+    if(args.length === 0) return message.channel.send("Please give me an index.");
     var index = (args[0] -1);
     Guild.findOne({guildId: message.guild.id}, function(err, guild){
         if(err) return message.channel.send("Could not get the guild from the database!");
@@ -55,6 +56,7 @@ function removeJoke(message, args){
 }
 
 function addJoke(message, args){
+    if(args.length === 0) return message.channel.send("Please give me a joke to add.");
     const newJoke = args.join(' ');
     Guild.findOneAndUpdate({guildId: message.guild.id}, {$push: {jokes: newJoke}}, function (err, guild) {
         if(err) return message.channel.send("Could not add joke to the list!");

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var defCompl = require('./compliments.js');
 var defJokes = require('./jokes.js');
+var def8ball = require('./magic8ball.js');
 
 var guildSchema = new mongoose.Schema({
     guildId: {
@@ -19,6 +20,10 @@ var guildSchema = new mongoose.Schema({
     jokes: {
         type: [String],
         default: defJokes
+    },
+    magicBall: {
+        type: [String],
+        default: def8ball
     }
 });
 
@@ -41,4 +46,9 @@ guildSchema.statics.resetJokes = function resetJokes(condition, callback) {
     })
 };
 
+guildSchema.statics.reset8ball = function reset8ball(condition, callback) {
+    this.findOneAndUpdate(condition, {magicBall: def8ball}, function(err, result){
+        return callback(err, result);
+    })
+};
 mongoose.model('Guild', guildSchema);

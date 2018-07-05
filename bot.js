@@ -44,7 +44,7 @@ client.on("message", async message =>
     // Switch for the command. Expand at own desire.
     switch (cmd) {
         case "help": case "ping": case "compliment": case "copy": case "stats":
-        case "joke": case "rps":
+        case "joke": case "rps": case "8ball":
             userCmd(message);
             break;
         case "admin":

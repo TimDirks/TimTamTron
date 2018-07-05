@@ -31,6 +31,9 @@ var switchCmd = function getCommand(message){
         case "rps":
             playRps(message, args);
             break;
+        case "8ball":
+            getMagic(message, args);
+            break;
     }
 };
 
@@ -43,6 +46,7 @@ function getHelp(message){
     help += "\n**t.copy [message] -** Will repeat what you said and delete your message.";
     help += "\n**t.stats [user] -** Get some statistics of yourself or someone else.";
     help += "\n**t.rps [rock/paper/scissors] -** Play a game of Rock Paper Scissors against the bot.";
+    help += "\n**t.8ball [question] -** Will look into the future to give you an answer.";
     help += "\n\nFor admin commands use **t.admin [command]**";
     help += "\n\n```For any more information look for TimTam :)```";
 
@@ -144,6 +148,27 @@ function playRps(message, args){
     });
 }
 
+function getMagic(message, args){
+    if(args.length === 0) return message.channel.send("Please give me a question to answer.");
+
+    // Add 1 to your magic 8 ball counter
+    User.findOneOrCreate({ userId: message.author.id }, function (err, user) {
+        if (err) return console.log(err);
+        user.magicBall += 1;
+        user.save();
+    });
+
+    Guild.findOne({guildId: message.guild.id}, function(err, guild){
+        if(err) return message.channel.send("Something went wrong with getting your guild from the database...");
+        if(guild.magicBall.length > 0){
+            var randomReply = Math.floor(Math.random() * guild.magicBall.length);
+            message.channel.send(guild.magicBall[randomReply]);
+        } else {
+            message.channel.send("Looks like you have no replies saved...");
+        }
+    });
+}
+
 function copyMessage(message, args){
     const copyMessage = args.join(' ');
     message.delete().catch(function(){
@@ -163,7 +188,8 @@ function getStats(message){
         stats += "\nGot a Compliment: "+user.complimented+" times";
         stats += "\nGave a Compliment: "+user.complimenting+" times";
         stats += "\nCracked a joke: "+user.joked+" times";
-        stats += "\nRock Paper Sciccors wins/ties/loses: "+user.rpsWin+"/"+user.rpsTie+"/"+user.rpsLose;
+        stats += "\nRock Paper Scissors wins/ties/loses: "+user.rpsWin+"/"+user.rpsTie+"/"+user.rpsLose;
+        stats += "\nShook the magic 8 ball: "+user.magicBall+" times";
         message.channel.send(stats);
     });
 }
