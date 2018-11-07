@@ -39,6 +39,16 @@ var userSchema = new mongoose.Schema({
         type: Number,
         default: 0,
         required: true
+    },
+    foxWon: {
+        type: Number,
+        default: 0,
+        required: true
+    },
+    foxHunted: {
+        type: Number,
+        default: 0,
+        required: true
     }
 });
 

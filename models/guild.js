@@ -24,6 +24,14 @@ var guildSchema = new mongoose.Schema({
     magicBall: {
         type: [String],
         default: def8ball
+    },
+    foxHunt: {
+        type: Object,
+        default: {
+            curFox: "",
+            hunters: [],
+            failed: []
+        }
     }
 });
 
