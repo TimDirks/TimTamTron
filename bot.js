@@ -6,26 +6,23 @@ const mongoose = require('mongoose');
 User = mongoose.model('User');
 Guild = mongoose.model('Guild');
 
-var adminCmd = require('./commands/adminCommands.js')(config.prefix);
-var userCmd = require('./commands/userCommands.js')(client, config.prefix);
+let adminCmd = require('./commands/adminCommands.js')(config.prefix);
+let userCmd = require('./commands/userCommands.js')(client, config.prefix);
 
-client.on("ready", function() {
+client.on("ready", () => {
     console.log("Bot has started, with " + client.users.size + " users, in " + client.channels.size + " channels of " + client.guilds.size + " guilds.");
     client.user.setActivity("Serving " + client.guilds.size + " servers");
 });
-client.on("guildCreate", function (guild) {
+client.on("guildCreate", (guild) => {
     // This event triggers when the bot joins a guild.
     Guild.findOneOrCreate({ guildId: guild.id, name: guild.name }, function (err, guild) {
         if (err) return console.log(err);
-        console.log("Added guild to the database");
     });
 
-    console.log("New guild joined: "+guild.name+" (id: "+guild.id+"). This guild has "+guild.memberCount+" members!");
     client.user.setActivity("Serving "+ client.guilds.size +" servers");
 });
-client.on("guildDelete", function(guild) {
+client.on("guildDelete", () => {
     // This event triggers when the bot is removed from a guild.
-    console.log("I have been removed from: "+guild.name+" (id: "+guild.id+").");
     client.user.setActivity("Serving "+ client.guilds.size +" servers");
 });
 
@@ -51,6 +48,6 @@ client.on("message", async message =>
             adminCmd(message);
             break;
     }
-})
+});
 
 module.exports = client;
