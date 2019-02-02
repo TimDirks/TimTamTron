@@ -38,7 +38,7 @@ function getHelp(message){
     help += "\n**t.foxhunt info -** Get the information on how to play the game.";
     help += "\n**t.foxhunt start -** Initiate a game of Fox Hunt! Users can enter by clicking the emote.";
     help += "\n**t.foxhunt confirm -** Starts the game of Fox Hunt with all the users who entered.";
-    help += "\n**t.foxhunt shoot [user] -** Make a guess at who the Fox might be! Be carefull, you can only do this once!";
+    help += "\n**t.foxhunt shoot [user] -** Make a guess at who the Fox might be! Be careful, you can only do this once!";
     help += "\n**t.foxhunt getPlayers -** Show a list of players who are in the current game.";
     help += "\n\n```For any more information look for TimTam :)```";
 
@@ -50,11 +50,11 @@ function getInfo(message){
     info += "\n**The game**";
     info += "\nFox Hunt is a pretty basic game which relies on the players to create half the fun.";
     info += "\nIn a game of Fox Hunt there is 1 Fox and the rest of the players are Hunters.";
-    info += "\nIt is the Hunters' goal to hunt the Fox, and ofcourse the goal of the Fox is to remain alive until there is only 1 Hunter left.";
+    info += "\nIt is the Hunters' goal to hunt the Fox, and of course the goal of the Fox is to remain alive until there is only 1 Hunter left.";
     info += "\nTo play the game you can attempt to hunt the Fox by 'shooting' a user. But be careful, you can only shoot once!";
     info += "\nThe Fox will die if he gets shot. However shooting another hunter has a 75% chance of killing that hunter, thus meaning they can't make their shot!";
-    info += "\nSide note: the Fox itself can 'shoot' (or 'eat') a hunter once aswell, to keep it fair.";
-    info += "\n\nNow ofcourse everyone can go round and shoot right away but that's not fun, is it?";
+    info += "\nSide note: the Fox itself can 'shoot' (or 'eat') a hunter once as well, to keep it fair.";
+    info += "\n\nNow of course everyone can go round and shoot right away but that's not fun, is it?";
     info += "\nTry to play the game sneakily, see who is acting weird when they're asked questions.";
     info += "\nBecome a true detective and try not to get outsmarted by the Fox!";
     info += "\n\n```For any more information look for TimTam :)```";
@@ -106,7 +106,7 @@ function confirmGame(message){
                 })
                 .then(() => {
                     if (players.length < 3)
-                        return message.channel.send("Looks like there aren't enough people joining yet. You'll need atleast 3 players!");
+                        return message.channel.send("Looks like there aren't enough people joining yet. You'll need at least 3 players!");
 
                     assignFox(guild, message, players);
                 })
@@ -144,7 +144,7 @@ function shootFox(message){
 
 
         if (guild.foxHunt.curFox === guessedMember.id) {
-            message.channel.send(`Congratulations, ${message.member} has shot the fox! ${guessedMember} was the fox all along! Well played!`);
+            message.channel.send(`Congratulations, **${message.member.displayName}** has shot the fox! **${guessedMember.displayName}** was the fox all along! Well played!`);
 
             User.findOneOrCreate({ userId: message.author.id }, function (err, user) {
                 if (err) return console.log(err);
@@ -156,9 +156,9 @@ function shootFox(message){
         }
 
         if (!Math.floor(Math.random()*4)) {
-            message.channel.send(`It turns out that **${guessedMember.displayName}** isn't the fox, but luckily survived the shot. Barely. However I'm afraid that you're out yourself. Better luck next time!`);
+            message.channel.send(`It turns out that **${guessedMember.displayName}** isn't the fox, but luckily survived the shot. Barely. However I'm afraid that you're out yourself. Be more careful next time!`);
         } else {
-            message.channel.send(`It turns out that **${guessedMember.displayName}** isn't the fox but still died to the shot. Now both of you are out! Better luck next time!`);
+            message.channel.send(`It turns out that **${guessedMember.displayName}** isn't the fox but still died to the shot. Now both of you are out! Be more careful next time!`);
             guild.foxHunt.failed.push(guessedMember.id);
         }
 
@@ -177,7 +177,7 @@ function shootFox(message){
             if (!fox) {
                 message.channel.send("It appears the fox is left with just one hunter but the fox can't be found? Perhaps they left the server... In any case, I'll clear the game so a new one can be started!");
             } else {
-                message.channel.send(`It appears that the fox is left with just one hunter, meaning the fox wins! Great job *fox*, or should I say ${fox}!`);
+                message.channel.send(`It appears that the fox is left with just one hunter, meaning the fox wins! Great job fox, or should I say **${fox.displayName}**! I'll reset the game so you can start a new one again!`);
 
                 User.findOneOrCreate({userId: fox.id}, function (err, user) {
                     if (err) return console.log(err);
@@ -186,7 +186,7 @@ function shootFox(message){
                 });
             }
 
-            return resetGame(message);
+            return resetGame(message, false);
         }
 
         guild.markModified('foxHunt');
@@ -225,19 +225,22 @@ function displayPlayers(message, hunters) {
 function assignFox(guild, message, players) {
     const fox = players[Math.floor(Math.random() * players.length)];
 
+    let shouldReturn = false;
+
     message.guild.fetchMember(fox.id).then(user => {
-        user.send('You\'re the Fox for this game! Get your best pokerface on and try to trick the hunters!');
+        user.send('You\'re the Fox for this game! Get your best pokerface on and try to trick the hunters!')
+            .catch(() => {
+                message.channel.send(`It looked like ${user} was going to be the fox but (s)he has DM's turned off so I can't notify them that (s)he is the fox. I'll reset the game so another attempt can be made.`);
+                shouldReturn = true;
+            });
+    }).catch(() => {
+        message.channel.send('It looks like who ever was going to be the fox can\'t be found. I\'ll reset the game so another attempt can be made. Sorry for the inconvenience.');
+        shouldReturn = true;
     });
 
-    // TODO Remove once done testing
-    players.map(player => {
-        // Send the message to TimTam (Hardcoded ID)
-        if (player.id === '158911879933198336') {
-            message.guild.fetchMember(player.id).then(user => {
-                user.send('The fox for this game is: ' + fox.name);
-            });
-        }
-    });
+    if (shouldReturn) {
+        return resetGame(message, false);
+    }
 
     message.channel.send(`The game of Fox Hunt has started! A total of ${players.length} players are playing, happy hunting!`);
 
@@ -246,12 +249,15 @@ function assignFox(guild, message, players) {
     guild.foxHunt.status = "started";
     guild.markModified('foxHunt');
     guild.save();
+
+    getPlayers(message, guild);
 }
 
-function resetGame (message) {
+function resetGame (message, showMsg = true) {
     Guild.resetFoxHunt({guildId: message.guild.id}, function(err) {
         if (err) return message.channel.send("Something went wrong with resetting the Fox Hunt for your guild.");
-        return message.channel.send("The Fox Hunt game has been reset");
+
+        if (showMsg) return message.channel.send("The Fox Hunt game has been reset");
     });
 }
 
