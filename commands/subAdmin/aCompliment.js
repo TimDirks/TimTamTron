@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 User = mongoose.model('User');
 Guild = mongoose.model('Guild');
 
-var switchCmd = function getCommand(message){
+let switchCmd = function getCommand(message){
     const args = message.content.slice(this.prefix.length).trim().split(' ');
     args.splice(0, 2);
 
-    var cmd = "";
+    let cmd = "";
     if(args.length) cmd = args.shift().toLowerCase();
 
     switch (cmd){
@@ -29,7 +29,7 @@ var switchCmd = function getCommand(message){
 function showComp(message){
     Guild.findOne({guildId: message.guild.id}, function(err, guild){
         if(err) return message.channel.send("Could not get the guild from the database!");
-        var compliments = "```List of all your compliments```\n";
+        let compliments = "```List of all your compliments```\n";
         guild.compliments.forEach(function(element, index){
             if(index % 15 === 0){
                 message.channel.send(compliments);
@@ -43,7 +43,7 @@ function showComp(message){
 
 function removeComp(message, args){
     if(args.length === 0) return message.channel.send("Please give me an index.");
-    var index = (args[0] -1);
+    let index = (args[0] -1);
     Guild.findOne({guildId: message.guild.id}, function(err, guild){
         if(err) return message.channel.send("Could not get the guild from the database!");
         if(index >= 0 && index < guild.compliments.length){

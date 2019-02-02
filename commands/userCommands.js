@@ -3,13 +3,13 @@ const mongoose = require('mongoose');
 User = mongoose.model('User');
 Guild = mongoose.model('Guild');
 
-var complimentCmd = require('./subUser/uCompliment.js');
-var jokeCmd = require('./subUser/uJoke.js');
-var rpsCmd = require('./subUser/uRps.js');
-var magicCmd = require('./subUser/uMagic8ball.js');
-var foxCmd = require('./subUser/uFoxhunt.js')(this.prefix);
+let complimentCmd = require('./subUser/uCompliment.js');
+let jokeCmd = require('./subUser/uJoke.js');
+let rpsCmd = require('./subUser/uRps.js');
+let magicCmd = require('./subUser/uMagic8ball.js');
+let foxCmd = require('./subUser/uFoxhunt.js')(this.prefix);
 
-var switchCmd = function getCommand(message){
+let switchCmd = function getCommand(message){
     const args = message.content.slice(this.prefix.length).trim().split(' ');
     const cmd = args.shift().toLowerCase();
     switch (cmd){
@@ -44,7 +44,7 @@ var switchCmd = function getCommand(message){
 };
 
 function getHelp(message){
-    var help = "```Command list overview```\n";
+    let help = "```Command list overview```\n";
     help += "\n**t.help -** You get this list. Great job, you played yourself!";
     help += "\n**t.ping -** Check the latency to the bot and to the API.";
     help += "\n**t.compliment [user] -** Will compliment the given user.";
@@ -53,6 +53,7 @@ function getHelp(message){
     help += "\n**t.stats [user] -** Get some statistics of yourself or someone else.";
     help += "\n**t.rps [rock/paper/scissors] -** Play a game of Rock Paper Scissors against the bot.";
     help += "\n**t.8ball [question] -** Will look into the future to give you an answer.";
+    help += "\n**t.foxhunt -** Play a game of Fox Hunt with some people.";
     help += "\n\nFor admin commands use **t.admin [command]**";
     help += "\n\n```For any more information look for TimTam :)```";
 
@@ -75,18 +76,20 @@ function copyMessage(message, args){
 }
 
 function getStats(message){
-    var member = message.mentions.members.first();
+    let member = message.mentions.members.first();
     if(!member) member = message.author;
 
     User.findOneOrCreate({ userId: member.id }, function (err, user) {
         if (err) return console.log(err);
         //Add more stats when there are more.
-        var stats = "**Statistics for "+member+":**";
+        let stats = "**Statistics for "+member+":**";
         stats += "\nGot a Compliment: "+user.complimented+" times";
         stats += "\nGave a Compliment: "+user.complimenting+" times";
         stats += "\nCracked a joke: "+user.joked+" times";
         stats += "\nRock Paper Scissors wins/ties/loses: "+user.rpsWin+"/"+user.rpsTie+"/"+user.rpsLose;
         stats += "\nShook the magic 8 ball: "+user.magicBall+" times";
+        stats += "\nWon Fox Hunt as the fox: "+user.foxWon+" times";
+        stats += "\nWon Fox Hunt as the hunter: "+user.foxHunted+" times";
         message.channel.send(stats);
     });
 }

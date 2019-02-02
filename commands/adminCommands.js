@@ -7,6 +7,7 @@ var complimentCmd = require('./subAdmin/aCompliment')(this.prefix);
 var helpCmd = require('./subAdmin/aHelp.js')(this.prefix);
 var jokeCmd = require('./subAdmin/aJoke.js')(this.prefix);
 var magicBallCmd = require('./subAdmin/aMagic8ball.js')(this.prefix);
+var foxHuntCmd = require('./subAdmin/aFoxhunt.js')(this.prefix);
 
 var switchCmd = function getCommand(message){
     if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Sorry, you need Administrator permissions for the Admin commands.");
@@ -32,6 +33,9 @@ var switchCmd = function getCommand(message){
         case "8ball":
             magicBallCmd(message);
             break;
+        case "foxhunt":
+            foxHuntCmd(message);
+            break;
     }
 };
 
@@ -43,6 +47,7 @@ function getHelp(message){
     help += "\n**t.admin compliment -** Will give you CRUD options for compliments.";
     help += "\n**t.admin joke -** Will give you CRUD options for jokes.";
     help += "\n**t.admin 8ball -** Will give you CRUD options for the magic 8 ball.";
+    help += "\n**t.admin foxhunt -** Will give you the option to reset the Fox Hunt game.";
     help += "\n\n```For any more information look for TimTam :)```";
 
     message.channel.send(help);

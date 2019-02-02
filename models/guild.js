@@ -1,10 +1,11 @@
-var mongoose = require('mongoose');
+let mongoose = require('mongoose');
 
-var defCompl = require('./compliments.js');
-var defJokes = require('./jokes.js');
-var def8ball = require('./magic8ball.js');
+let defCompl = require('./compliments.js');
+let defJokes = require('./jokes.js');
+let def8ball = require('./magic8ball.js');
+let defFoxHunt = require('./foxHunt.js');
 
-var guildSchema = new mongoose.Schema({
+let guildSchema = new mongoose.Schema({
     guildId: {
         type: String,
         required: true
@@ -27,11 +28,7 @@ var guildSchema = new mongoose.Schema({
     },
     foxHunt: {
         type: Object,
-        default: {
-            curFox: "",
-            hunters: [],
-            failed: []
-        }
+        default: defFoxHunt
     }
 });
 
@@ -59,4 +56,11 @@ guildSchema.statics.reset8ball = function reset8ball(condition, callback) {
         return callback(err, result);
     })
 };
+
+guildSchema.statics.resetFoxHunt = function resetFoxHunt(condition, callback) {
+    this.findOneAndUpdate(condition, {foxHunt: defFoxHunt}, function(err, result){
+        return callback(err, result);
+    })
+};
+
 mongoose.model('Guild', guildSchema);
