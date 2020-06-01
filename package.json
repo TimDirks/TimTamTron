@@ -7,7 +7,7 @@
   "main": "app.js",
   "author": "Tim Dirks",
   "scripts": {
-    "serve": "node app.js"
+    "start": "node app.js"
   },
   "dependencies": {
     "discord.js": "^11.3.2",
