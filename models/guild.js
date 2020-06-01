@@ -4,6 +4,8 @@ let defCompl = require('./compliments.js');
 let defJokes = require('./jokes.js');
 let def8ball = require('./magic8ball.js');
 let defFoxHunt = require('./foxHunt.js');
+let defJoinMsgs = require('./joinMessages.js');
+let defConfig = require('./config.js');
 
 let guildSchema = new mongoose.Schema({
     guildId: {
@@ -29,13 +31,22 @@ let guildSchema = new mongoose.Schema({
     foxHunt: {
         type: Object,
         default: defFoxHunt
+    },
+    joinMessages: {
+        type: [String],
+        default: defJoinMsgs,
+    },
+    config: {
+        type: Object,
+        default: defConfig,
     }
 });
 
 guildSchema.statics.findOneOrCreate = function findOneOrCreate(condition, callback) {
-    const self = this
+    const self = this;
+
     self.findOne(condition, (err, result) => {
-        return result ? callback(err, result) : self.create(condition, (err, result) => { return callback(err, result) })
+        return result ? callback(err, result) : self.create(condition, (err, result) => { return callback(err, result) });
     })
 };
 
@@ -62,5 +73,18 @@ guildSchema.statics.resetFoxHunt = function resetFoxHunt(condition, callback) {
         return callback(err, result);
     })
 };
+
+guildSchema.statics.resetJoinMessages = function resetJoinMessages(condition, callback) {
+    this.findOneAndUpdate(condition, {joinMessages: defJoinMsgs}, function(err, result){
+        return callback(err, result);
+    })
+};
+
+guildSchema.statics.resetConfig = function resetConfig(condition, callback) {
+    this.findOneAndUpdate(condition, {config: defConfig}, function(err, result){
+        return callback(err, result);
+    })
+};
+
 
 mongoose.model('Guild', guildSchema);

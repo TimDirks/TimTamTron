@@ -1,4 +1,4 @@
-var defJokes = [
+let defJokes = [
     "If you spent your day in a well, can you say your day was well-spent?",
     "I Googled \"how to start a wildfire\". I got 48,500 matches.",
     "What do snowmen do in their spare time? Not much, just chilling.",

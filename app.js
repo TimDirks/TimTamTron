@@ -10,6 +10,7 @@ let mongoose = require('mongoose');
 mongoose.connect(`mongodb://${process.env.DB_NAME}:${encodeURIComponent(process.env.DB_PASS)}@ds219641.mlab.com:19641/timtamtron`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useFindAndModify: false,
 });
 
 require('./models/user.js');
