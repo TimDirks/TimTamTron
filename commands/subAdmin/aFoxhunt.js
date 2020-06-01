@@ -18,7 +18,10 @@ let switchCmd = function getCommand(message){
 
 function resetFoxHunt(message){
     Guild.resetFoxHunt({guildId: message.guild.id}, function(err) {
-        if (err) return message.channel.send("Something went wrong with resetting the Fox Hunt for your guild.");
+        if (err) {
+            return message.channel.send("Something went wrong with resetting the Fox Hunt for your guild.");
+        }
+
         return message.channel.send("The Fox Hunt game has been reset");
     });
 }
