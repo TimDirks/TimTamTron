@@ -62,8 +62,8 @@ function getHelp(message){
 
 // Function needs to be async for the await
 async function getLatency(message){
-    const m = await
-    message.channel.send("Ping?");
+    const m = await message.channel.send("Ping?");
+
     m.edit("Pong! Latency is "+(m.createdTimestamp - message.createdTimestamp)+"ms. API Latency is "+Math.round(client.ping)+"ms");
 }
 
