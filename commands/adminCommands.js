@@ -8,9 +8,13 @@ let helpCmd = require('./subAdmin/aHelp.js')(this.prefix);
 let jokeCmd = require('./subAdmin/aJoke.js')(this.prefix);
 let magicBallCmd = require('./subAdmin/aMagic8ball.js')(this.prefix);
 let foxHuntCmd = require('./subAdmin/aFoxhunt.js')(this.prefix);
+let joinMessageCmd = require('./subAdmin/aJoinMessage.js')(this.prefix);
 
 let switchCmd = function getCommand(message){
-    if(!message.member.hasPermission("ADMINISTRATOR")) return message.channel.send("Sorry, you need Administrator permissions for the Admin commands.");
+    if(!message.member.hasPermission("ADMINISTRATOR")) {
+        return message.channel.send("Sorry, you need Administrator permissions for the Admin commands.");
+    }
+
     const args = message.content.slice(this.prefix.length).trim().split(' ');
     args.splice(0, 1);
 
@@ -36,6 +40,12 @@ let switchCmd = function getCommand(message){
         case "foxhunt":
             foxHuntCmd(message);
             break;
+        case "joinmessage":
+            joinMessageCmd(message);
+            break;
+        case "resetconfig":
+            resetConfig(message);
+            break;
     }
 };
 
@@ -48,9 +58,21 @@ function getHelp(message){
     help += "\n**t.admin joke -** Will give you CRUD options for jokes.";
     help += "\n**t.admin 8ball -** Will give you CRUD options for the magic 8 ball.";
     help += "\n**t.admin foxhunt -** Will give you the option to reset the Fox Hunt game.";
+    help += "\n**t.admin joinmessage -** Will give you CRUD options for the join messages.";
+    help += "\n**t.admin resetconfig -** Reset all config values to the default values.";
     help += "\n\n```For any more information look for TimTam :)```";
 
     message.channel.send(help);
+}
+
+function resetConfig(message){
+    Guild.resetConfig({guildId: message.guild.id}, function(err, guild) {
+        if (err) {
+            return message.channel.send("Something went wrong with resetting the config for your guild.");
+        }
+
+        message.channel.send("Config has been reset.");
+    });
 }
 
 module.exports = function(prefix) {

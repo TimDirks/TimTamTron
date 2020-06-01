@@ -21,6 +21,9 @@ let switchCmd = function getCommand(message){
         case "foxhunt":
             getHelpFoxhunt(message);
             break;
+        case "joinmessage":
+            getHelpJoinMsg(message);
+            break;
     }
 };
 
@@ -32,16 +35,18 @@ function getHelp(message){
 
     message.channel.send(help);
 }
+
 function getHelpComp(message){
     let help = "```Admin Compliment Command overview```\n";
     help += "\n**t.admin compliment -** You get a list of all the compliments from you server.";
     help += "\n**t.admin compliment reset -** Resets the compliments to the default list.";
-    help += "\n**t.admin compliment add [compliment] -** Add your own compliment. Include ``[user]`` in the compliment to @ the given user when the command is called.";
+    help += "\n**t.admin compliment add [compliment] -** Add your own compliment. Include ``[user]`` in the compliment to tag the given user when the command is called.";
     help += "\n**t.admin compliment remove [index] -** Will remove the compliment with the given index from the list. To check the indexes use t.admin compliment.";
     help += "\n\n```For any more information look for TimTam :)```";
 
     message.channel.send(help);
 }
+
 function getHelpJoke(message){
     let help = "```Admin Joke Command overview```\n";
     help += "\n**t.admin joke -** You get a list of all the jokes from you server.";
@@ -52,6 +57,7 @@ function getHelpJoke(message){
 
     message.channel.send(help);
 }
+
 function getHelp8ball(message){
     let help = "```Admin magic 8 ball Command overview```\n";
     help += "\n**t.admin 8ball -** You get a list of all the fortunes from you server.";
@@ -62,9 +68,22 @@ function getHelp8ball(message){
 
     message.channel.send(help);
 }
+
 function getHelpFoxhunt(message){
     let help = "```Admin Fox Hunt Command overview```\n";
     help += "\n**t.admin foxhunt reset -** Resets the game of Fox Hunt so a clean new one can be started.";
+    help += "\n\n```For any more information look for TimTam :)```";
+
+    message.channel.send(help);
+}
+
+function getHelpJoinMsg(message){
+    let help = "```Admin Join Message Command overview```\n";
+    help += "\n**t.admin joinmessage -** You get a list of all the join messages from you server.";
+    help += "\n**t.admin joinmessage reset -** Resets the join messages to the default list.";
+    help += "\n**t.admin joinmessage add [compliment] -** Add your own join message. Include ``[user]`` in the join message to tag the joined user in the message.";
+    help += "\n**t.admin joinmessage setchannel [channel] -** Set the channel in which the join messages will be displayed. Be sure to actually tag the channel for it to work.";
+    help += "\n**t.admin joinmessage remove [index] -** Will remove the join message with the given index from the list. To check the indexes use t.admin joinmessage.";
     help += "\n\n```For any more information look for TimTam :)```";
 
     message.channel.send(help);

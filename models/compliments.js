@@ -1,4 +1,4 @@
-var defCompl = [
+let defCompl = [
     "[user] I love your hairstyle!",
     "[user] you look lovely as ever!",
     "[user] I'm really glad I met you!",
