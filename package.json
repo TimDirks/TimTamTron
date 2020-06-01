@@ -2,15 +2,19 @@
   "name": "discordbot",
   "version": "0.1.2",
   "description": "My own Discord bot",
+  "repository": "https://github.com/TimDirks/TimTamTron",
+  "license": "MIT",
   "main": "app.js",
   "author": "Tim Dirks",
   "scripts": {
-    "start": "node app.js"
+    "serve": "node app.js"
   },
   "dependencies": {
     "discord.js": "^11.3.2",
+    "dotenv": "^8.2.0",
+    "dotenv-flow": "^3.1.0",
     "express": "^4.16.3",
     "http": "0.0.0",
-    "mongoose": "^5.1.6"
+    "mongoose": "^5.9.16"
   }
 }

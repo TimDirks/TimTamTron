@@ -1,3 +1,7 @@
 node_modules
 /.idea/
 .idea/workspace.xml
+
+# local env files
+.env.local
+.env.*.local

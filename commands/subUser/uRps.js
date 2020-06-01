@@ -3,17 +3,22 @@ const mongoose = require('mongoose');
 User = mongoose.model('User');
 Guild = mongoose.model('Guild');
 
-var rps = [ "rock", "paper", "scissors"];
-var rpsBeat = { rock:"scissors", paper:"rock", scissors:"paper"};
+let rps = [ "rock", "paper", "scissors"];
+let rpsBeat = { rock:"scissors", paper:"rock", scissors:"paper"};
 
 function playRps(message, args){
-    if(args.length === 0 || rps.indexOf(args[0].toLowerCase()) <= -1) return message.channel.send("Please give a valid option to play (Rock, Paper, Scissors).");
-    var play = args[0].toLowerCase();
-    var botChoice = rps[Math.floor(Math.random() * rps.length)];
+    if(args.length === 0 || rps.indexOf(args[0].toLowerCase()) <= -1) {
+        return message.channel.send("Please give a valid option to play (Rock, Paper, Scissors).");
+    }
 
-    var result = "I choose "+ botChoice +"! ";
+    let play = args[0].toLowerCase();
+    let botChoice = rps[Math.floor(Math.random() * rps.length)];
+
+    let result = "I choose "+ botChoice +"! ";
+
     User.findOneOrCreate({ userId: message.author.id }, function (err, user) {
         if (err) return console.log(err);
+
         User.findOneOrCreate({ userId: client.user.id }, function (err, bot) {
             if (err) return console.log(err);
 
@@ -30,8 +35,10 @@ function playRps(message, args){
                 bot.rpsWin += 1;
                 result += "You Lose! Perhaps you'll win next time.";
             }
+
             bot.save();
             user.save();
+
             message.channel.send(result);
         });
     });

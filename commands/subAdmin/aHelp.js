@@ -29,6 +29,7 @@ function getHelp(message){
     help += "\n**Usage:** t.admin help [command]";
     help += "\n**Valid [command] options:** compliment, joke, 8ball, foxhunt";
     help += "\n\n```For any more information look for TimTam :)```";
+
     message.channel.send(help);
 }
 function getHelpComp(message){
@@ -38,6 +39,7 @@ function getHelpComp(message){
     help += "\n**t.admin compliment add [compliment] -** Add your own compliment. Include ``[user]`` in the compliment to @ the given user when the command is called.";
     help += "\n**t.admin compliment remove [index] -** Will remove the compliment with the given index from the list. To check the indexes use t.admin compliment.";
     help += "\n\n```For any more information look for TimTam :)```";
+
     message.channel.send(help);
 }
 function getHelpJoke(message){
@@ -47,6 +49,7 @@ function getHelpJoke(message){
     help += "\n**t.admin joke add [joke] -** Add your own joke.";
     help += "\n**t.admin joke remove [index] -** Will remove the joke with the given index from the list. To check the indexes use t.admin joke.";
     help += "\n\n```For any more information look for TimTam :)```";
+
     message.channel.send(help);
 }
 function getHelp8ball(message){
@@ -56,12 +59,14 @@ function getHelp8ball(message){
     help += "\n**t.admin 8ball add [fortune] -** Add your own fortune.";
     help += "\n**t.admin 8ball remove [index] -** Will remove the fortune with the given index from the list. To check the indexes use t.admin 8ball.";
     help += "\n\n```For any more information look for TimTam :)```";
+
     message.channel.send(help);
 }
 function getHelpFoxhunt(message){
     let help = "```Admin Fox Hunt Command overview```\n";
     help += "\n**t.admin foxhunt reset -** Resets the game of Fox Hunt so a clean new one can be started.";
     help += "\n\n```For any more information look for TimTam :)```";
+
     message.channel.send(help);
 }
 

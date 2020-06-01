@@ -62,17 +62,22 @@ function getHelp(message){
 
 // Function needs to be async for the await
 async function getLatency(message){
-    const m = await
-    message.channel.send("Ping?");
-    m.edit("Pong! Latency is "+(m.createdTimestamp - message.createdTimestamp)+"ms. API Latency is "+Math.round(client.ping)+"ms");
+    const pingMsg = await message.channel.send("Ping?");
+
+    pingMsg.edit("Pong! Latency is "+(pingMsg.createdTimestamp - message.createdTimestamp)+"ms. API Latency is "+Math.round(client.ping)+"ms");
 }
 
 function copyMessage(message, args){
     const copyMessage = args.join(' ');
-    message.delete().catch(function(){
-        console.log("Couldn't delete message...");
-    });
-    if(copyMessage !== "") message.channel.send(copyMessage);
+
+    message.delete()
+        .catch(function(){
+            console.log("Couldn't delete message...");
+        });
+
+    if(copyMessage !== "") {
+        message.channel.send(copyMessage);
+    }
 }
 
 function getStats(message){
@@ -81,7 +86,7 @@ function getStats(message){
 
     User.findOneOrCreate({ userId: member.id }, function (err, user) {
         if (err) return console.log(err);
-        //Add more stats when there are more.
+
         let stats = "**Statistics for "+member+":**";
         stats += "\nGot a Compliment: "+user.complimented+" times";
         stats += "\nGave a Compliment: "+user.complimenting+" times";
@@ -90,6 +95,7 @@ function getStats(message){
         stats += "\nShook the magic 8 ball: "+user.magicBall+" times";
         stats += "\nWon Fox Hunt as the fox: "+user.foxWon+" times";
         stats += "\nWon Fox Hunt as the hunter: "+user.foxHunted+" times";
+
         message.channel.send(stats);
     });
 }
