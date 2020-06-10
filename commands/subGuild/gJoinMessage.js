@@ -9,7 +9,7 @@ function sendJoinMessage (member) {
         if(channel){
             let joinMessage = guild.joinMessages[Math.floor(Math.random() * guild.joinMessages.length)];
 
-            let msg = joinMessage.indexOf('[user]') >= 0 ? joinMessage.replace("[user]", member) : `${member}, ${joinMessage}`;
+            let msg = joinMessage.indexOf('[user]') >= 0 ? joinMessage.replace('[user]', member) : `${member}, ${joinMessage}`;
 
             channel.send(msg);
         }

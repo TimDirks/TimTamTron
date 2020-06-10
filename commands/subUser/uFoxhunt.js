@@ -100,31 +100,23 @@ function confirmGame(message){
 
         let players = [];
 
-        message.channel.fetchMessage(guild.foxHunt.messageId).then(message => {
-            const react = message.reactions.filter(r => r.emoji.name === "⬆").first();
-            let reacts = react.count;
+        message.channel.messages.fetch(guild.foxHunt.messageId).then(message => {
+            const react = message.reactions.cache.filter(r => r.emoji.name === "⬆").first();
 
-            react.fetchUsers()
-                .then(users => {
-                    users.map(user => {
-                        if (!user.bot) {
-                            players.push({
-                                id: user.id,
-                                name: user.username
-                            });
-                        }
+            react.users.cache.map(user => {
+                if (!user.bot) {
+                    players.push({
+                        id: user.id,
+                        name: user.username
                     });
-                })
-                .then(() => {
-                    if (players.length < 3) {
-                        return message.channel.send("Looks like there aren't enough people joining yet. You'll need at least 3 players!");
-                    }
+                }
+            });
 
-                    assignFox(guild, message, players);
-                })
-                .catch(err => {
-                    message.reply("Cannot fetch users for react: '" + reacts + "', err: " + err + "!");
-                });
+            if (players.length < 3) {
+                return message.channel.send("Looks like there aren't enough people joining yet. You'll need at least 3 players!");
+            }
+
+            assignFox(guild, message, players);
         }).catch(err => {
             console.log(err);
         });
@@ -256,7 +248,7 @@ function assignFox(guild, message, players) {
 
     let shouldReturn = false;
 
-    message.guild.fetchMember(fox.id).then(user => {
+    message.guild.members.fetch(fox.id).then(user => {
         user.send('You\'re the Fox for this game! Get your best pokerface on and try to trick the hunters!')
             .catch(() => {
                 message.channel.send(`It looked like ${user} was going to be the fox but (s)he has DM's turned off so I can't notify them that (s)he is the fox. I'll reset the game so another attempt can be made.`);
