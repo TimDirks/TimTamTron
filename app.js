@@ -19,7 +19,7 @@ require('./models/guild.js');
 let client = require('./bot.js');
 
 app.listen(port, function(){
-    console.log("Server started ..! on port " + port);
+    console.log(`Server started on port ${port}`);
 });
 
 client.login(process.env.BOT_TOKEN);

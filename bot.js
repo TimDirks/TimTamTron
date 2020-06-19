@@ -1,51 +1,41 @@
 const Discord = require("discord.js");
+const fs = require('fs');
+
 const client = new Discord.Client();
-const config = require("./config.json");
-const mongoose = require('mongoose');
+client.commands = new Discord.Collection();
 
-User = mongoose.model('User');
-Guild = mongoose.model('Guild');
+function loadEvents () {
+    const eventFiles = fs.readdirSync('./commands/events').filter(file => file.endsWith('.js'));
 
-let adminCmd = require('./commands/adminCommands.js')(config.prefix);
-let userCmd = require('./commands/userCommands.js')(client, config.prefix);
-let joinCmd = require('./commands/subGuild/gJoinMessage.js');
+    for (const file of eventFiles) {
+        const eventCommand = require(`./commands/events/${file}`);
+
+        if (eventCommand.event && eventCommand.execute) {
+            client.on(eventCommand.event, eventCommand.execute);
+        }
+    }
+}
+
+function loadCommands () {
+    const commandFiles = fs.readdirSync('./commands/user').filter(file => file.endsWith('.js'));
+
+    for (const file of commandFiles) {
+        const command = require(`./commands/user/${file}`);
+
+        client.commands.set(command.name, command);
+    }
+}
 
 client.on("ready", () => {
-    console.log("Bot has started, with " + client.users.cache.size + " users, in " + client.channels.cache.size + " channels of " + client.guilds.cache.size + " guilds.");
+    console.log(`Bot has started with:
+     ${client.users.cache.size} users,
+     ${client.channels.cache.size} channels,
+     ${client.guilds.cache.size} guilds,`);
 
-    client.user.setActivity("Serving " + client.guilds.cache.size + " servers");
+    client.user.setActivity(`Serving ${client.guilds.cache.size} servers`);
 });
 
-client.on("guildCreate", (guild) => {
-    Guild.findOneOrCreate({ guildId: guild.id, name: guild.name }, function (err, guild) {
-        if (err) {
-            return console.log(err);
-        }
-    });
-
-    client.user.setActivity("Serving "+ client.guilds.cache.size +" servers");
-});
-
-client.on("guildDelete", () => {
-    client.user.setActivity("Serving "+ client.guilds.cache.size +" servers");
-});
-
-client.on('guildMemberAdd', joinCmd);
-
-client.on("message", async message =>
-{
-    if (message.author.bot) return;
-
-    if (message.content.indexOf(config.prefix) !== 0) return;
-
-    const args = message.content.slice(config.prefix.length).trim().split(' ');
-    const cmd = args.shift().toLowerCase();
-
-    if (cmd === 'admin') {
-        adminCmd(message);
-    } else {
-        userCmd(message);
-    }
-});
+loadEvents();
+loadCommands();
 
 module.exports = client;

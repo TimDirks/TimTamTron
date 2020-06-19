@@ -30,7 +30,7 @@ let switchCmd = function getCommand(message){
 };
 
 function showJoinMessages(message){
-    Guild.findOne({guildId: message.guild.id}, function(err, guild){
+    Guild.findOneOrCreate({guildId: message.guild.id}, function(err, guild){
         if(err) {
             return message.channel.send("Could not get the guild from the database!");
         }
@@ -58,7 +58,7 @@ function removeJoinMessage(message, args){
 
     let index = (args[0] -1);
 
-    Guild.findOne({guildId: message.guild.id}, function(err, guild){
+    Guild.findOneOrCreate({guildId: message.guild.id}, function(err, guild){
         if(err) {
             return message.channel.send("Could not get the guild from the database!");
         }

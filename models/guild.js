@@ -12,10 +12,6 @@ let guildSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    name: {
-        type: String,
-        required: true
-    },
     compliments: {
         type: [String],
         default: defCompl
